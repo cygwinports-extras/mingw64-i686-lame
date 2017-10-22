@@ -2,8 +2,8 @@ CROSS_HOST="i686-w64-mingw32"
 inherit cross
 
 NAME="mingw64-i686-lame"
-VERSION=3.99.5
-RELEASE=3
+VERSION=3.100
+RELEASE=1
 CATEGORY="Devel"
 SUMMARY="MP3 encoder library for Win32 toolchain"
 DESCRIPTION="LAME is a LGPL MP3 encoder, with speed and quality to rival and
@@ -11,6 +11,7 @@ often surpass all commercial competitiors."
 HOMEPAGE="http://lame.sourceforge.net/"
 SRC_URI="mirror://sourceforge/lame/lame-${VERSION}.tar.gz"
 SRC_DIR="lame-${VERSION}"
+PATCH_URI="3.100-symbols.patch"
 
 CYGCONF_ARGS="
 	--enable-nasm
@@ -20,15 +21,6 @@ CYGCONF_ARGS="
 	--disable-debug
 	ac_cv_header_xmmintrin_h=no
 "
-
-src_compile() {
-	cd ${S}
-	cygautoreconf
-	cd ${B}
-	cygconf
-	mkdir -p libmp3lame/i386/.libs	# fix parallel make
-	cygmake
-}
 
 src_install() {
 	cd ${B}
